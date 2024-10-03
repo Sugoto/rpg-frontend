@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const classes = [
   {
@@ -25,7 +26,7 @@ const classes = [
     description:
       "A skillful expert of stealth and subterfuge, specializing in precision strikes.",
     abilities: { STR: 0, DEX: 3, CON: 1, INT: 1, WIS: -1, CHA: 2 },
-    equipment: ["Dagger", "Thieves' Tools", "Leather Armor"],
+    equipment: ["Daggers", "Thieves' Tools", "Leather Armor"],
   },
   {
     name: "Artificer",
@@ -39,7 +40,7 @@ const classes = [
     description:
       "A divine oracle gifted with the ability to interpret the will of the heavens.",
     abilities: { STR: 1, DEX: 0, CON: 2, INT: 0, WIS: 3, CHA: 2 },
-    equipment: ["Staff", "Holy Symbol", "Traveller's Robes"],
+    equipment: ["Staff", "Star Dust", "Mystical Robes"],
   },
 ];
 
@@ -114,8 +115,12 @@ export default function NewPlayer() {
                       )
                     )}
                   </div>
-                  <div className="text-sm">
-                    Equipment: {classItem.equipment.join(", ")}
+                  <div className="flex flex-row gap-4 mt-4">
+                    {classItem.equipment.map((equipmentItem) => (
+                      <Badge key={equipmentItem} variant="outline">
+                        {equipmentItem}
+                      </Badge>
+                    ))}
                   </div>
                 </CardFooter>
               </Card>
