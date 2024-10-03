@@ -26,7 +26,7 @@ export default function Home() {
           <Input
             type="text"
             placeholder="Enter username"
-            className="text-white"
+            className="text-white bg-opacity-50 backdrop-filter backdrop-blur-sm"
           />
           <Link href="/play">
             <Button variant="secondary" className="w-full font-bold mt-5">

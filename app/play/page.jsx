@@ -79,7 +79,7 @@ export default function Play() {
                 </p>
               </div>
             </ScrollArea>
-            <div className="mt-4 flex items-center">
+            <div className="mt-20 flex items-center">
               <Textarea
                 placeholder="Type your action..."
                 className="mr-2 resize-none"
