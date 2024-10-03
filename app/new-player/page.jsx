@@ -19,7 +19,7 @@ const classes = [
     description:
       "A master of martial combat, skilled with a variety of weapons and armor.",
     abilities: { STR: 3, DEX: 2, CON: 1, INT: 0, WIS: 1, CHA: -1 },
-    equipment: ["Sword", "Shield", "Plate Armor"],
+    equipment: ["Sword", "Shield", "Steel Armor"],
   },
   {
     name: "Rogue",
@@ -115,7 +115,7 @@ export default function NewPlayer() {
                       )
                     )}
                   </div>
-                  <div className="flex flex-row gap-4 mt-4">
+                  <div className="flex flex-row gap-4 mt-4 items-center text-center">
                     {classItem.equipment.map((equipmentItem) => (
                       <Badge key={equipmentItem} variant="outline">
                         {equipmentItem}
