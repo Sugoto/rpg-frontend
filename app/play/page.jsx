@@ -41,7 +41,9 @@ export default function Play() {
         {/* Location and Quest Details */}
         <Card className="w-full lg:w-1/4">
           <CardHeader>
-            <CardTitle>Location & Quest</CardTitle>
+            <CardTitle className="text-center font-bold">
+              Quest Details
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[calc(100vh-16rem)]">
@@ -62,7 +64,7 @@ export default function Play() {
         {/* Chat Area */}
         <Card className="w-full lg:w-1/2">
           <CardHeader>
-            <CardTitle>Adventure Log</CardTitle>
+            <CardTitle className="text-center">Adventure Log</CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[calc(100vh-20rem)]">
@@ -90,7 +92,7 @@ export default function Play() {
         {/* Character Details */}
         <Card className="w-full lg:w-1/4">
           <CardHeader>
-            <CardTitle>Character Sheet</CardTitle>
+            <CardTitle className="text-center">Character Sheet</CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[calc(100vh-16rem)]">
