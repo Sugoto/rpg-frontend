@@ -111,7 +111,7 @@ export default function Play() {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger>
-                  <div className="flex items-center mr-10">
+                  <div className="flex items-center md:mr-10">
                     <Coins className="mr-1 text-yellow-500" size={20} />
                     <span className="font-semibold">250</span>
                   </div>
