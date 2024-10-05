@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -21,6 +22,12 @@ export default function Play() {
   const [isQuestDetailsOpen, setIsQuestDetailsOpen] = useState(false);
   const [isCharacterSheetOpen, setIsCharacterSheetOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+
+  const searchParams = useSearchParams();
+
+  const username = searchParams.get("username");
+
+  console.log(username);
 
   useEffect(() => {
     const handleResize = () => {

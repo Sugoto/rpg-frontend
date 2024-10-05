@@ -1,10 +1,17 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
+  const [username, setUsername] = useState("");
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
   return (
     <div
       className="h-screen mx-auto px-4 sm:px-8 py-8"
@@ -27,8 +34,10 @@ export default function Home() {
             type="text"
             placeholder="Enter username"
             className="text-white bg-opacity-50 backdrop-filter backdrop-blur-sm"
+            value={username}
+            onChange={handleUsernameChange}
           />
-          <Link href="/play">
+          <Link href={`/play?username=${username}`}>
             <Button variant="secondary" className="w-full font-bold mt-5">
               Continue
             </Button>
