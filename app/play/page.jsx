@@ -18,6 +18,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function Play() {
   const [isQuestDetailsOpen, setIsQuestDetailsOpen] = useState(false);
@@ -25,6 +26,7 @@ export default function Play() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
@@ -50,12 +52,17 @@ export default function Play() {
   useEffect(() => {
     const fetchUserData = async () => {
       setIsLoading(true);
+      setError(null);
       try {
         const response = await fetch(`http://localhost:8000/users/${username}`);
+        if (!response.ok) {
+          throw new Error("User not found!");
+        }
         const data = await response.json();
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setError(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -103,6 +110,17 @@ export default function Play() {
       </Card>
     </Collapsible>
   );
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <Alert variant="destructive" className="w-40">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 p-4 gap-4">
