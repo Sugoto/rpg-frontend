@@ -17,17 +17,17 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Play() {
   const [isQuestDetailsOpen, setIsQuestDetailsOpen] = useState(false);
   const [isCharacterSheetOpen, setIsCharacterSheetOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const searchParams = useSearchParams();
-
   const username = searchParams.get("username");
-
-  console.log(username);
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,6 +46,25 @@ export default function Play() {
       setIsCharacterSheetOpen(true);
     }
   }, [isDesktop]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`http://localhost:8000/users/${username}`);
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (username) {
+      fetchUserData();
+    }
+  }, [username]);
 
   const CollapsibleCard = ({
     title,
@@ -91,14 +110,26 @@ export default function Play() {
       <Card className="w-full p-2">
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <div className="w-1/3" /> {/* Spacer */}
-          <h2 className="text-xl font-bold text-center w-1/3">Aragorn</h2>
+          <h2 className="text-xl font-bold text-center w-1/3">
+            {isLoading ? (
+              <Skeleton className="h-6 w-24" />
+            ) : (
+              userData?.char_name
+            )}
+          </h2>
           <div className="flex gap-10 w-full sm:w-1/3 justify-center sm:justify-end">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
                   <div className="flex items-center">
                     <Heart className="mr-1 text-red-500" size={20} />
-                    <span className="font-semibold">45/45</span>
+                    <span className="font-semibold">
+                      {isLoading ? (
+                        <Skeleton className="h-4 w-12" />
+                      ) : (
+                        `${userData?.hp}/${userData?.hp}`
+                      )}
+                    </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -109,7 +140,13 @@ export default function Play() {
                 <TooltipTrigger>
                   <div className="flex items-center">
                     <Shield className="mr-1 text-slate-500" size={20} />
-                    <span className="font-semibold">16</span>
+                    <span className="font-semibold">
+                      {isLoading ? (
+                        <Skeleton className="h-4 w-8" />
+                      ) : (
+                        userData?.ac
+                      )}
+                    </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -120,7 +157,13 @@ export default function Play() {
                 <TooltipTrigger>
                   <div className="flex items-center md:mr-10">
                     <Coins className="mr-1 text-yellow-500" size={20} />
-                    <span className="font-semibold">250</span>
+                    <span className="font-semibold">
+                      {isLoading ? (
+                        <Skeleton className="h-4 w-10" />
+                      ) : (
+                        userData?.gold
+                      )}
+                    </span>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -189,20 +232,29 @@ export default function Play() {
         >
           <h3 className="font-bold">Abilities</h3>
           <div className="grid grid-cols-2 gap-2 mt-2">
-            <div>STR: 14</div>
-            <div>DEX: 12</div>
-            <div>CON: 13</div>
-            <div>INT: 15</div>
-            <div>WIS: 14</div>
-            <div>CHA: 10</div>
+            {isLoading
+              ? Array(6)
+                  .fill(0)
+                  .map((_, index) => (
+                    <Skeleton key={index} className="h-4 w-16" />
+                  ))
+              : Object.entries(userData?.abilities || {}).map(
+                  ([key, value]) => <div key={key}>{`${key}: ${value}`}</div>
+                )}
           </div>
           <h3 className="font-bold mt-4">Equipment</h3>
           <ul className="list-disc list-inside mt-2">
-            <li>Longsword</li>
-            <li>Shield</li>
-            <li>Leather Armor</li>
-            <li>Backpack</li>
-            <li>Rations (5 days)</li>
+            {isLoading
+              ? Array(5)
+                  .fill(0)
+                  .map((_, index) => (
+                    <li key={index}>
+                      <Skeleton className="h-4 w-24 inline-block" />
+                    </li>
+                  ))
+              : userData?.equipment.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
           </ul>
         </CollapsibleCard>
       </div>
