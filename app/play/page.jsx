@@ -54,7 +54,9 @@ export default function Play() {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:8000/users/${username}`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${username}`
+        );
         if (!response.ok) {
           throw new Error("User not found!");
         }
